@@ -64,7 +64,14 @@ def destruct_icmp_header(raw_data):
 
 def destruct_arp_header(raw_data):
     hardware_type, protocol_type, hardware_size, protocol_size, opcode, src_mac, src_ip, dest_mac, dest_ip = struct.unpack('! H H B B H 6s 4s 6s 4s', raw_data[:28])
+
+    src_mac = get_mac_addr(src_mac)
+    src_ip = get_ip(src_ip)
+    dest_mac = get_mac_addr(dest_mac)
+    dest_ip = get_ip(dest_ip)
+
     data = raw_data[28:]
+    
     return hardware_type, protocol_type, hardware_size, protocol_size, opcode, src_mac, src_ip, dest_mac, dest_ip, data
 
 def decode_http(raw_data):
@@ -157,7 +164,6 @@ def main():
             print('Source Mac: {}, Source IP: {}'.format(arp[5], arp[6]))
             print('Dest Mac: {}, Dest IP: {}'.format(arp[7], arp[8]))
             print('---------------------------------')
-            print(format_multi_line(arp[9]))
 
         else:
             print('Ethernet data:')
