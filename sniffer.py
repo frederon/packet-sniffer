@@ -71,7 +71,7 @@ def destruct_arp_header(raw_data):
     dest_ip = get_ip(dest_ip)
 
     data = raw_data[28:]
-    
+
     return hardware_type, protocol_type, hardware_size, protocol_size, opcode, src_mac, src_ip, dest_mac, dest_ip, data
 
 def decode_http(raw_data):
@@ -124,7 +124,7 @@ def main():
                     if tcp[0] == 80 or tcp[1] == 80:
                         print('HTTP data:')
                         try:
-                            http = http(tcp[10])
+                            http = decode_http(tcp[10])
                             http_info = str(http[10]).split('\n')
                             for line in http_info:
                                 print('' + str(line))
